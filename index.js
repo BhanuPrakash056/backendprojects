@@ -1,10 +1,16 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const product = require("./server");
 
-app.use(express.json({ extended: false }));
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }))
 
-app.use("/api/server", product);
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
+const weatherRoute = require('./Api/server');
+
+
+app.set('view engine', 'ejs');
+
+app.use('/', weatherRoute);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server starting at port ${PORT}`));
